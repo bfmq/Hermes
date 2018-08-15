@@ -1,10 +1,10 @@
 package main
 
 import (
-	"net/http"
-	"io/ioutil"
 	"encoding/json"
-	)
+	"io/ioutil"
+	"net/http"
+)
 
 type IPInfo struct {
 	Code int `json:"code"`

@@ -1,15 +1,15 @@
 package main
 
 import (
+	"bfmq/Hermes/conf"
 	"bfmq/Hermes/plugins"
 	"encoding/json"
+	"github.com/Shopify/sarama"
 	"github.com/bsm/sarama-cluster"
 	"github.com/donnie4w/go-logger/logger"
 	"net/http"
-	"bfmq/Hermes/conf"
-	"github.com/Shopify/sarama"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 var frontData *plugins.FrontData
@@ -43,31 +43,31 @@ func init() {
 	}()
 }
 
-func insert2Kafka(w http.ResponseWriter, r *http.Request)  {
+func insert2Kafka(w http.ResponseWriter, r *http.Request) {
 	fd := plugins.NewFrontData()
 	r.ParseForm()
 
 	fd.IpAddr = strings.Split(r.RemoteAddr, ":")[0]
 	fd.Url = strings.Split(r.Referer(), "/")[2]
 	fd.City = ip2City(fd.IpAddr)
-	fd.LoadTime,_ =strconv.Atoi(r.Form.Get("loadTime"))
-	fd.UnloadEventTime,_ =strconv.Atoi(r.Form.Get("unloadEventTime"))
-	fd.LoadEventTime,_ =strconv.Atoi(r.Form.Get("loadEventTime"))
-	fd.DomReadyTime,_ =strconv.Atoi(r.Form.Get("domReadyTime"))
-	fd.FirstScreen,_ =strconv.Atoi(r.Form.Get("firstScreen"))
-	fd.ParseDomTime,_ =strconv.Atoi(r.Form.Get("parseDomTime"))
-	fd.InitDomTreeTime,_ =strconv.Atoi(r.Form.Get("initDomTreeTime"))
-	fd.ReadyStart,_ =strconv.Atoi(r.Form.Get("readyStart"))
-	fd.RedirectTime,_ =strconv.Atoi(r.Form.Get("redirectTime"))
-	fd.AppcacheTime,_ =strconv.Atoi(r.Form.Get("appcacheTime"))
-	fd.LookupDomainTime,_ =strconv.Atoi(r.Form.Get("lookupDomainTime"))
-	fd.ConnectTime,_ =strconv.Atoi(r.Form.Get("connectTime"))
-	fd.RequestTime,_ =strconv.Atoi(r.Form.Get("requestTime"))
-	fd.RequestDocumentTime,_ =strconv.Atoi(r.Form.Get("requestDocumentTime"))
-	fd.ResponseDocumentTime,_ =strconv.Atoi(r.Form.Get("responseDocumentTime"))
-	fd.TTFB,_ =strconv.Atoi(r.Form.Get("TTFB"))
+	fd.LoadTime, _ = strconv.Atoi(r.Form.Get("loadTime"))
+	fd.UnloadEventTime, _ = strconv.Atoi(r.Form.Get("unloadEventTime"))
+	fd.LoadEventTime, _ = strconv.Atoi(r.Form.Get("loadEventTime"))
+	fd.DomReadyTime, _ = strconv.Atoi(r.Form.Get("domReadyTime"))
+	fd.FirstScreen, _ = strconv.Atoi(r.Form.Get("firstScreen"))
+	fd.ParseDomTime, _ = strconv.Atoi(r.Form.Get("parseDomTime"))
+	fd.InitDomTreeTime, _ = strconv.Atoi(r.Form.Get("initDomTreeTime"))
+	fd.ReadyStart, _ = strconv.Atoi(r.Form.Get("readyStart"))
+	fd.RedirectTime, _ = strconv.Atoi(r.Form.Get("redirectTime"))
+	fd.AppcacheTime, _ = strconv.Atoi(r.Form.Get("appcacheTime"))
+	fd.LookupDomainTime, _ = strconv.Atoi(r.Form.Get("lookupDomainTime"))
+	fd.ConnectTime, _ = strconv.Atoi(r.Form.Get("connectTime"))
+	fd.RequestTime, _ = strconv.Atoi(r.Form.Get("requestTime"))
+	fd.RequestDocumentTime, _ = strconv.Atoi(r.Form.Get("requestDocumentTime"))
+	fd.ResponseDocumentTime, _ = strconv.Atoi(r.Form.Get("responseDocumentTime"))
+	fd.TTFB, _ = strconv.Atoi(r.Form.Get("TTFB"))
 
-	_ = plugins.SendData2Kafka(fd,sap)
+	_ = plugins.SendData2Kafka(fd, sap)
 }
 
 func main() {
